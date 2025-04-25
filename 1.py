@@ -43,7 +43,7 @@ def open_browser(instance_number, email, password):
     driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
 
     driver.get(login_url)
-    wait = WebDriverWait(driver, 60)
+    wait = WebDriverWait(driver, 30)
 
     try:
         username_field = wait.until(EC.presence_of_element_located((By.ID, "nameInput")))
@@ -67,7 +67,7 @@ def open_browser(instance_number, email, password):
     original_window = driver.current_window_handle
 
 # Wait for new window/tab to open
-    WebDriverWait(driver, 30).until(EC.number_of_windows_to_be(2))
+    WebDriverWait(driver, 20).until(EC.number_of_windows_to_be(2))
 
 # Switch to the new window
     for handle in driver.window_handles:
