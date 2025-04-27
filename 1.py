@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import threading
 import os
-
+th = input("delay thread : ")
 chrome_driver_path = "/usr/local/bin/chromedriver"
 login_url = "https://anypoint.mulesoft.com/login/"
 
@@ -101,7 +101,7 @@ for i, (email, password) in enumerate(accounts[:50]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(60)  # Prevent overload
+    time.sleep(th)  # Prevent overload
 
 for thread in threads:
     thread.join()
