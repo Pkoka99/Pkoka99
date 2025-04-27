@@ -18,11 +18,7 @@ with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
 def open_browser(instance_number, email, password):
-    profile_path = f"cppx/prof{instance_number}"
-    os.makedirs(profile_path, exist_ok=True)
     options = webdriver.ChromeOptions()
-    options.add_argument(f"--user-data-dir={os.path.abspath(profile_path)}")
-    options.add_argument("--profile-directory=Default")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-background-networking")
@@ -71,7 +67,7 @@ def open_browser(instance_number, email, password):
     original_window = driver.current_window_handle
 
 # Wait for new window/tab to open
-    WebDriverWait(driver, 50).until(EC.number_of_windows_to_be(2))
+    WebDriverWait(driver, 30).until(EC.number_of_windows_to_be(2))
 
 # Switch to the new window
     for handle in driver.window_handles:
