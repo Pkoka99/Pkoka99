@@ -10,7 +10,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import threading
 import os
-th = input("delay thread : ")
 chrome_driver_path = "/usr/local/bin/chromedriver"
 login_url = "https://anypoint.mulesoft.com/login/"
 
@@ -98,6 +97,7 @@ def open_browser(instance_number, email, password):
 # Launch multiple instances
 threads = []
 for i, (email, password) in enumerate(accounts[:50]):
+    th = input("delay thread : ")
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
