@@ -18,7 +18,11 @@ with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
 def open_browser(instance_number, email, password):
+    profile_path = f"cppx/prof{instance_number}"
+    os.makedirs(profile_path, exist_ok=True)
     options = webdriver.ChromeOptions()
+    options.add_argument(f"--user-data-dir={os.path.abspath(profile_path)}")
+    options.add_argument("--profile-directory=Default")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-background-networking")
