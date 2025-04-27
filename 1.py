@@ -97,11 +97,11 @@ def open_browser(instance_number, email, password):
 # Launch multiple instances
 threads = []
 for i, (email, password) in enumerate(accounts[:50]):
-    th = input("delay thread : ")
+    
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(th)  # Prevent overload
+    time.sleep(10)  # Prevent overload
 
 for thread in threads:
     thread.join()
