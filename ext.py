@@ -35,4 +35,4 @@ url = f"https://rentry.co/{gg}"
 # Extract and print the text
 extrac = extract_text_from_rentry(url)
 with open("acc.txt", "a") as file:
-     file.write(f"extrac")
+     file.write(f"{extrac}")
