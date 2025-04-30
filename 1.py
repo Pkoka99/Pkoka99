@@ -20,10 +20,18 @@ with open("acc.txt", "r") as file:
 import socket
 from contextlib import closing
 
-def find_free_port():
-    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-        s.bind(('', 0))
-        return s.getsockname()[1]
+def find_free_port(min_port=49152, max_port=60999):
+    """Finds random available port within specified range"""
+    for port in range(min_port, max_port + 1):
+        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+            try:
+                s.bind(('', port))
+                s.listen(1)
+                return port
+            except socket.error:
+                continue
+    raise Exception("No free ports in range")
+    
 port = find_free_port()
 def open_browser(instance_number, email, password):
     options = webdriver.ChromeOptions() # Critical for Docker/Linux
