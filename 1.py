@@ -18,7 +18,13 @@ with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
 def open_browser(instance_number, email, password):
-    options = webdriver.ChromeOptions()
+    options = webdriver.ChromeOptions() # Critical for Docker/Linux
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-backgrounding-occluded-windows")
+    options.add_argument("--disable-client-side-phishing-detection")
+    options.add_argument("--enable-logging")
+    options.add_argument("--log-level=3")
+    options.add_experimental_option("useAutomationExtension", False)
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-background-networking")
