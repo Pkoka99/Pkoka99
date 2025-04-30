@@ -104,7 +104,7 @@ for i, (email, password) in enumerate(accounts[:100]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(5)  # Prevent overload
+    time.sleep(30)  # Prevent overload
 
 for thread in threads:
     thread.join()
