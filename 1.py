@@ -55,8 +55,8 @@ def open_browser(instance_number, email, password):
 
     
     try:
-      service = Service(executable_path=chrome_driver_path, port=port)
-      driver = webdriver.Chrome(service=service, options=options)
+      
+      driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
       with focusl:
         driver.get(login_url)
         print(f"{email} Open Chrome")
