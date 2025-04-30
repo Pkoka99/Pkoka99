@@ -95,6 +95,9 @@ def open_browser(instance_number, email, password):
         except:
             print(f"[{email}] ❌ terminal not found ")
 
+    except Exception as e:
+        print(f"[{email}] ❌ Error: {str(e)}")
+
 # Launch multiple instances
 threads = []
 for i, (email, password) in enumerate(accounts[:50]):
