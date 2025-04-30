@@ -49,7 +49,7 @@ def open_browser(instance_number, email, password):
     print(f"{email} Open Chrome")
     wait = WebDriverWait(driver, 30) 
     try:
-       username_field = wait.until(EC.presence_of_element_located((By.ID, "nameInput")))
+        username_field = wait.until(EC.presence_of_element_located((By.ID, "nameInput")))
         password_field = driver.find_element(By.ID, "passwordInput")
         username_field.send_keys(email)          
         password_field.send_keys(password)
