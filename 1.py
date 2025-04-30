@@ -59,6 +59,7 @@ def open_browser(instance_number, email, password):
       driver = webdriver.Chrome(service=service, options=options)
       with focusl:
         driver.get(login_url)
+        print(f"{email} Open Chrome")
         wait = WebDriverWait(driver, 30) 
         try:
             username_field = wait.until(EC.presence_of_element_located((By.ID, "nameInput")))
