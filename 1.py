@@ -16,7 +16,8 @@ sss = 1
 with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
-def options = webdriver.ChromeOptions() # Critical for Docker/Linux
+def open_browser(instance_number, email, password):
+    options = webdriver.ChromeOptions() # Critical for Docker/Linux
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-backgrounding-occluded-windows")
     options.add_argument("--disable-client-side-phishing-detection")
