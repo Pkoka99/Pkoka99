@@ -16,23 +16,7 @@ sss = 1
 focusl = threading.Lock()
 with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
-
-import socket
-from contextlib import closing
-
-def find_free_port(min_port=49152, max_port=60999):
-    """Finds random available port within specified range"""
-    for port in range(min_port, max_port + 1):
-        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-            try:
-                s.bind(('', port))
-                s.listen(1)
-                return port
-            except socket.error:
-                continue
-    raise Exception("No free ports in range")
     
-port = find_free_port()
 def open_browser(instance_number, email, password):
     options = webdriver.ChromeOptions() # Critical for Docker/Linux
     options.add_argument("--disable-gpu")
@@ -45,7 +29,6 @@ def open_browser(instance_number, email, password):
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-background-networking")
     options.add_argument("--headless")
-    options.add_argument(f"--remote-debugging-port={port}")
     options.add_argument("--disable-extensions")
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--disable-default-apps")
@@ -78,7 +61,7 @@ def open_browser(instance_number, email, password):
             print(f"[{email}] ✅ Login submitted.")
         except Exception as e:
             print(f"[{email}] ❌ Login fields not found: {e}")
-
+        time.sleep(2)
         if "codebuilder" not in driver.current_url:
             driver.get("https://anypoint.mulesoft.com/codebuilder/")
 
