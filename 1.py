@@ -17,6 +17,14 @@ focusl = threading.Lock()
 with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
+import socket
+from contextlib import closing
+
+def find_free_port():
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.bind(('', 0))
+        return s.getsockname()[1]
+port = find_free_port()
 def open_browser(instance_number, email, password):
     options = webdriver.ChromeOptions() # Critical for Docker/Linux
     options.add_argument("--disable-gpu")
@@ -29,6 +37,7 @@ def open_browser(instance_number, email, password):
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-background-networking")
     options.add_argument("--headless")
+    options.add_argument(f"--remote-debugging-port={port}")
     options.add_argument("--disable-extensions")
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--disable-default-apps")
@@ -46,7 +55,8 @@ def open_browser(instance_number, email, password):
 
     
     try:
-      driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
+      service = Service(executable_path=chrome_driver_path, port=port)
+      driver = webdriver.Chrome(service=service, options=options)
       with focusl:
         driver.get(login_url)
         wait = WebDriverWait(driver, 30) 
