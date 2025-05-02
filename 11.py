@@ -67,6 +67,7 @@ def open_browser(instance_number, email, password):
         print(f"[{email}] ✅ Clicked Launch button")
     except:
         print(f"[{email}] ❌ Launch button not found")
+        driver.quit()
     original_window = driver.current_window_handle
 
 # Wait for new window/tab to open
@@ -79,7 +80,7 @@ def open_browser(instance_number, email, password):
             break  #
 
     print("Switched to Code Builder window")
-    time.sleep(150)
+    time.sleep(180)
     print(driver.current_url)
     actions = ActionChains(driver)
     actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
@@ -89,6 +90,7 @@ def open_browser(instance_number, email, password):
         print("✅ Command executed.")
     except:
         print(f"[{email}] ❌ area not found ")
+        driver.quit()
     
     try:
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
@@ -97,6 +99,7 @@ def open_browser(instance_number, email, password):
         textarea1.send_keys(Keys.ENTER)
     except:
         print(f"[{email}] ❌ terminal not found ")
+        driver.quit()
 
 # Launch multiple instances
 threads = []
@@ -104,7 +107,7 @@ for i, (email, password) in enumerate(accounts[:80]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(30)  # Prevent overload
+    time.sleep(10)  # Prevent overload
 
 for thread in threads:
     thread.join()
