@@ -12,7 +12,6 @@ import threading
 import os
 chrome_driver_path = "/usr/local/bin/chromedriver"
 login_url = "https://anypoint.mulesoft.com/login/"
-sss = 1
 with open("acc.txt", "r") as file:
     accounts = [line.strip().split(":") for line in file.readlines()]
 
