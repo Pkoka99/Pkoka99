@@ -77,6 +77,8 @@ def open_browser(instance_number, email, password):
         if handle != original_window:
             driver.switch_to.window(handle)
             break  #
+    print(f"[{email}] Switched to Code Builder window")
+    time.sleep(10)
     if "redirect_uri" in driver.current_url
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
@@ -84,7 +86,7 @@ def open_browser(instance_number, email, password):
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
     else:       
-        print("Switched to Code Builder window")
+        
         time.sleep(180)
         print(driver.current_url)
         actions = ActionChains(driver)
