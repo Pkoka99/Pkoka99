@@ -77,12 +77,18 @@ def open_browser(instance_number, email, password):
         if handle != original_window:
             driver.switch_to.window(handle)
             break  #
-
-    print("Switched to Code Builder window")
-    time.sleep(180)
-    print(driver.current_url)
-    actions = ActionChains(driver)
-    actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
+    if "redirect_uri" in driver.current_url
+        parsed_url = urlparse(url)
+        query_params = parse_qs(parsed_url.query)
+        redirect_uri = query_params.get('redirect_uri', [''])[0]
+        gg8 = unquote(redirect_uri)
+        driver.get(gg8)
+    else:       
+        print("Switched to Code Builder window")
+        time.sleep(180)
+        print(driver.current_url)
+        actions = ActionChains(driver)
+        actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
     try:
         textarea = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-screen")))
         textarea.click()
@@ -106,9 +112,10 @@ for i, (email, password) in enumerate(accounts[:80]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(35)  # Prevent overload
+    time.sleep(15)  # Prevent overload
 
 for thread in threads:
     thread.join()
 
 print("✅ All Chrome instances launched and optimized.")
+        
