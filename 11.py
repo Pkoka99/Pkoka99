@@ -77,16 +77,17 @@ def open_browser(instance_number, email, password):
         if handle != original_window:
             driver.switch_to.window(handle)
             break  #
+            
     print(f"[{email}] Switched to Code Builder window")
-    time.sleep(10)
+    time.sleep(5)
+    
     if "redirect_uri" in driver.current_url:
-        parsed_url = urlparse(url)
+        parsed_url = urlparse(driver.current_url)
         query_params = parse_qs(parsed_url.query)
         redirect_uri = query_params.get('redirect_uri', [''])[0]
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
-    else:       
-        
+    else:
         time.sleep(180)
         print(driver.current_url)
         actions = ActionChains(driver)
@@ -120,4 +121,5 @@ for thread in threads:
     thread.join()
 
 print("✅ All Chrome instances launched and optimized.")
+
         
