@@ -79,19 +79,10 @@ def open_browser(instance_number, email, password):
             break  #
             
     print(f"[{email}] Switched to Code Builder window")
-    time.sleep(5)
-    
-    if "redirect_uri" in driver.current_url:
-        parsed_url = urlparse(driver.current_url)
-        query_params = parse_qs(parsed_url.query)
-        redirect_uri = query_params.get('redirect_uri', [''])[0]
-        gg8 = unquote(redirect_uri)
-        driver.get(gg8)
-    else:
-        time.sleep(180)
-        print(driver.current_url)
-        actions = ActionChains(driver)
-        actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
+    time.sleep(180)
+    print(driver.current_url)
+    actions = ActionChains(driver)
+    actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
     try:
         textarea = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-screen")))
         textarea.click()
