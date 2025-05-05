@@ -87,7 +87,7 @@ def open_browser(instance_number, email, password):
         redirect_uri = query_params.get('redirect_uri', [''])[0]
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
-        print(f"[{email}] Open vps terminal")
+        print(f"[{email}] Open {gg8}")
     else:
         time.sleep(60)
         print(driver.current_url)
