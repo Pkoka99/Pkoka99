@@ -87,8 +87,9 @@ def open_browser(instance_number, email, password):
         redirect_uri = query_params.get('redirect_uri', [''])[0]
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
-        print(f"[{email}] Open {gg8}")
+        
         time.sleep(20)
+        print(f"[{email}] url {driver.current_url}")
         actions = ActionChains(driver)
         actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
     else:
