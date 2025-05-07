@@ -87,8 +87,7 @@ def open_browser(instance_number, email, password):
         redirect_uri = query_params.get('redirect_uri', [''])[0]
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
-        
-        time.sleep(20)
+        time.sleep(30)
         print(f"[{email}] url {driver.current_url}")
         actions = ActionChains(driver)
         actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
@@ -97,7 +96,6 @@ def open_browser(instance_number, email, password):
         print(driver.current_url)
         actions = ActionChains(driver)
         actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
-        
     try:
         textarea = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-screen")))
         textarea.click()
