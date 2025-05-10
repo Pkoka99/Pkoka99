@@ -79,7 +79,7 @@ def open_browser(instance_number, email, password):
             break  #
             
     print(f"[{email}] Switched to Code Builder window")
-    time.sleep(80)
+    time.sleep(150)
     
     if "redirect_uri" in driver.current_url:
         parsed_url = urlparse(driver.current_url)
@@ -119,7 +119,7 @@ for i, (email, password) in enumerate(accounts[:80]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
-    time.sleep(35)  # Prevent overload
+    time.sleep(50)  # Prevent overload
 
 for thread in threads:
     thread.join()
