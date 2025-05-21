@@ -46,7 +46,7 @@ def open_browser(instance_number, email, password):
     
     driver = uc.Chrome(
         options=options,
-        version_main=114,  # Match your Chrome version
+        version_main=136,  # Match your Chrome version
         headless=True,
         use_subprocess=False
     )
