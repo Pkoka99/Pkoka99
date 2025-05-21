@@ -27,6 +27,7 @@ def open_browser(instance_number, email, password):
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-background-networking")
     options.add_argument("--headless=new")
+    options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--disable-extensions")
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--disable-default-apps")
