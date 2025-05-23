@@ -81,7 +81,7 @@ def open_browser(instance_number, email, password):
             break  #
             
     print(f"[{email}] Switched to Code Builder window")
-    time.sleep(60)
+    time.sleep(20)
     
     if "redirect_uri" in driver.current_url:
         parsed_url = urlparse(driver.current_url)
@@ -89,12 +89,12 @@ def open_browser(instance_number, email, password):
         redirect_uri = query_params.get('redirect_uri', [''])[0]
         gg8 = unquote(redirect_uri)
         driver.get(gg8)
-        time.sleep(50)
+        time.sleep(30)
         print(f"[{email}] url {driver.current_url}")
         actions = ActionChains(driver)
         actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
     else:
-        time.sleep(60)
+        time.sleep(30)
         print(driver.current_url)
         actions = ActionChains(driver)
         actions.key_down(Keys.CONTROL).send_keys('`').key_up(Keys.CONTROL).perform()
@@ -120,7 +120,7 @@ def open_browser(instance_number, email, password):
 
 # Launch multiple instances
 threads = []
-for i, (email, password) in enumerate(accounts[:320]):
+for i, (email, password) in enumerate(accounts[:640]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
