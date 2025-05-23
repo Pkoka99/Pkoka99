@@ -81,7 +81,7 @@ def open_browser(instance_number, email, password):
             break  #
             
     print(f"[{email}] Switched to Code Builder window")
-    time.sleep(20)
+    time.sleep(50)
     
     if "redirect_uri" in driver.current_url:
         parsed_url = urlparse(driver.current_url)
