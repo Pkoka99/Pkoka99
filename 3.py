@@ -8,7 +8,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from urllib.parse import urlparse, parse_qs, unquote
 import time
-import undetected_chromedriver as uc
 import threading
 import os
 chrome_driver_path = "/usr/local/bin/chromedriver"
