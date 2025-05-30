@@ -120,7 +120,7 @@ def open_browser(instance_number, email, password):
 
 # Launch multiple instances
 threads = []
-for i, (email, password) in enumerate(accounts[:640]):
+for i, (email, password) in enumerate(accounts[:50]):
     thread = threading.Thread(target=open_browser, args=(i, email, password))
     thread.start()
     threads.append(thread)
