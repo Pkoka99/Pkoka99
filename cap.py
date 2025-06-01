@@ -30,7 +30,7 @@ def check_key(key):
                 if balance > 0:
                     RESULTS_QUEUE.put(f"✅ VALID KEY: {key}\nBalance: ${balance}")
             else:
-                # RESULTS_QUEUE.put(f"❌ Invalid key: {key}")  # Uncomment to see invalid keys
+                RESULTS_QUEUE.put(f"❌ Invalid key: {key}")  # Uncomment to see invalid keys
                 pass
     except Exception as e:
         RESULTS_QUEUE.put(f"⚠️ Error checking {key[:12]}...: {str(e)}")
