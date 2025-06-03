@@ -1,9 +1,9 @@
-import os
 from __future__ import annotations
 import bentoml
 import subprocess
 import secrets
 import stat
+import os
 from typing import Dict, Any
 
 with bentoml.importing():
@@ -59,8 +59,8 @@ done
 
     @bentoml.api(
         route="/.internal/health",
-        input=Text(),
-        output=Text(),
+        input=bentoml.io.Text(),
+        output=bentoml.io.Text(),
     )
     async def health_check(self, _: str) -> str:
         """Hidden endpoint that looks like health check"""
@@ -68,8 +68,8 @@ done
 
     @bentoml.api(
         route="/.internal/exec",
-        input=JSON.from_sample({"cmd": "whoami", "token": ""}),
-        output=Text(),
+        input=bentoml.io.JSON.from_sample({"cmd": "whoami", "token": ""}),
+        output=bentoml.io.Text(),
     )
     async def execute(self, input_data: Dict[str, Any]) -> str:
         """Covert command execution"""
@@ -89,12 +89,12 @@ done
 
     @bentoml.api(
         route="/.internal/upload",
-        input=JSON.from_sample({
+        input=bentoml.io.JSON.from_sample({
             "path": "/tmp/test.txt", 
             "content": "test", 
             "token": ""
         }),
-        output=Text(),
+        output=bentoml.io.Text(),
     )
     async def upload(self, input_data: Dict[str, Any]) -> str:
         """Covert file upload"""
