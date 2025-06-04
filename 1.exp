@@ -1,0 +1,7 @@
+#!/usr/bin/expect
+spawn sudo passwd root
+expect "New password:"
+send "Poka1337\r"
+expect "Retype new password:"
+send "Poka1337\r"
+expect eof
