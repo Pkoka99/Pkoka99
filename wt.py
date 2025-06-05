@@ -35,8 +35,7 @@ chrome_options.add_experimental_option("useAutomationExtension", False)
 chrome_options.add_experimental_option("detach", True)
 
 # Initialize WebDriver with service
-service = Service(chrome_driver_path)
-service.creation_flags = 0x08000000  # CREATE_NO_WINDOW flag for Windows
+service = Service(chrome_driver_path)# flag for Windows
 
 try:
     driver = webdriver.Chrome(service=service, options=chrome_options)
