@@ -30,7 +30,7 @@ try:
     
     print("Setting worker count...")
     driver.find_element(By.ID, "basic_workers").clear()
-    driver.find_element(By.ID, "basic_workers").send_keys("96")
+    driver.find_element(By.ID, "basic_workers").send_keys(input("threads : "))
     
     print("Submitting form...")
     driver.find_element(
