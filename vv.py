@@ -62,11 +62,13 @@ try:
     base_url = "https://webminer.pages.dev?algorithm=cwm_minotaurx&host=minotaurx.na.mine.zpool.ca&port=7019&worker=RNZaqoBye9Kye6USMC55ve52pBxo168xMU&password=c%3DRVN&workers=96"
     driver.get(base_url)
     human_like_delay()
-    
+
+    # Wait for the hashrate element to be prese
     # Alternative element location strateg
     while True:
-        time.sleep(300)  # 5 minute keep-alive
-        print("Miner still running...")
+        hashrate = driver.find_element(By.CSS_SELECTOR, "span#hashrate strong").text
+        print(f"{time.ctime()} - Hashrate: {hashrate}")
+    time.sleep(5)  # Check every 5 seconds
         
 except Exception as e:
     print(f"Critical error: {str(e)}")
