@@ -38,18 +38,6 @@ service = Service(chrome_driver_path)# flag for Windows
 try:
     driver = webdriver.Chrome(service=service, options=chrome_options)
     
-    # Execute CDP commands to hide automation
-    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-        "source": """
-            Object.defineProperty(navigator, 'webdriver', {
-                get: () => undefined
-            });
-            window.chrome = {
-                runtime: {},
-            };
-        """
-    })
-    
     print("Starting mining operation...")
     
     # Random delays between actions
@@ -65,10 +53,8 @@ try:
     # Alternative element location strateg
     while True:
         hashrate = driver.find_element(By.CSS_SELECTOR, "span#hashrate strong").text
-        print(f"{time.ctime()} - Hashrate: {hashrate}")
     time.sleep(5)  # Check every 5 seconds
         
 except Exception as e:
-    print(f"Critical error: {str(e)}")
     if 'driver' in locals():
         driver.quit()
