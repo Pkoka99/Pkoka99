@@ -14,5 +14,5 @@ const { JSDOM } = jsdom;
   setTimeout(() => {
     console.log("Page loaded and JS executed.");
     // You can now read DOM, call functions, etc.
-  }, 6000); // Wait 6 seconds (or longer)
+  }, 600000000); // Wait 6 seconds (or longer)
 })();
