@@ -1,0 +1,10 @@
+import subprocess
+from cog import BasePredictor, Input
+
+class Predictor(BasePredictor):
+    def predict(
+        self,
+        command: str = Input(description="Bash command to run"),
+    ) -> str:
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        return result.stdout + result.stderr
