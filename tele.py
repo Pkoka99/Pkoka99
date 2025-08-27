@@ -1,27 +1,32 @@
-from telethon import TelegramClient
+from telethon import TelegramClient, functions, types
 import asyncio
 
-# isi dengan data dari my.telegram.org
+# Ganti dengan API ID dan API HASH kamu dari my.telegram.org
 api_id = 29423686
 api_hash = "0b7a35bc4270626060375248e6c69618"
 
+# Nama session (file login akan tersimpan dengan nama ini)
+client = TelegramClient("session_findgroup", api_id, api_hash)
+
+
 async def main():
-    async with TelegramClient("session", api_id, api_hash) as client:
-        # contoh search group publik
+    # Contoh cari group publik pakai keyword
+    # Bisa diganti misalnya "2022", "2023", "2024"
+    keywords = ["2022", "2023", "2024"]
+
+    for kw in keywords:
+        print(f"\n🔎 Searching groups with keyword: {kw}")
         result = await client(functions.contacts.SearchRequest(
-            q="toko",   # kata kunci group
+            q=kw,
             limit=10
         ))
 
-        for chat in result.chats:
-            print(f"Nama: {chat.title} | ID: {chat.id}")
+        if result.chats:
+            for chat in result.chats:
+                print(f"📌 Found: {chat.title} | ID: {chat.id} | Username: {chat.username}")
+        else:
+            print("❌ No groups found for", kw)
 
-            # cek history pesan pertama (untuk kira2 tahun dibuat)
-            messages = await client.get_messages(chat.id, limit=1, offset_id=1, reverse=True)
-            if messages:
-                first_msg = messages[0]
-                year = first_msg.date.year
-                if 2022 <= year <= 2024:
-                    print(f"✅ Group ini dibuat sekitar {year}")
 
-asyncio.run(main())
+with client:
+    client.loop.run_until_complete(main())
