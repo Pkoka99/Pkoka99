@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+    ServerName webku.local
+    DocumentRoot /var/www/webku
+
+    <Directory /var/www/webku>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
