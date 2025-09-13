@@ -39,7 +39,8 @@ jobs:
               Special = ([char[]](33..47) + [char[]](58..64) +
                          [char[]](91..96) + [char[]](123..126)) # Special characters
           }
-          New-LocalUser -Name "RDP" -Password "Poka1337" -AccountNeverExpires
+          $Password = ConvertTo-SecureString "Poka1337" -AsPlainText -Force
+          New-LocalUser -Name "RDP" -Password $Password -AccountNeverExpires
           Add-LocalGroupMember -Group "Administrators" -Member "RDP"
           Add-LocalGroupMember -Group "Remote Desktop Users" -Member "RDP"
           
