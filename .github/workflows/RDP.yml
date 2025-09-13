@@ -27,8 +27,8 @@ jobs:
         if: always()
         run: |
           $status = if ($LASTEXITCODE -eq 0) {"✅ RDP Settings configured"} else {"❌ RDP Settings failed"}
-          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = $status }
+          $url = "https://api.telegram.org/bot${env:TELEGRAM_BOT_TOKEN}/sendMessage"
+          $payload = @{ chat_id = "${env:TELEGRAM_CHAT_ID}"; text = $status }
           Invoke-RestMethod -Uri $url -Method Post -Body $payload
 
       # --- Install Tailscale ---
@@ -42,8 +42,8 @@ jobs:
         if: always()
         run: |
           $status = if ($LASTEXITCODE -eq 0) {"✅ Tailscale Installed"} else {"❌ Tailscale Install Failed"}
-          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = $status }
+          $url = "https://api.telegram.org/bot${env:TELEGRAM_BOT_TOKEN}/sendMessage"
+          $payload = @{ chat_id = "${env:TELEGRAM_CHAT_ID}"; text = $status }
           Invoke-RestMethod -Uri $url -Method Post -Body $payload
 
       # --- Tailscale Login (non-blocking) ---
@@ -65,8 +65,8 @@ jobs:
       - name: Send Telegram (Login Info)
         if: always()
         run: |
-          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "${env:MESSAGE}" }
+          $url = "https://api.telegram.org/bot${env:TELEGRAM_BOT_TOKEN}/sendMessage"
+          $payload = @{ chat_id = "${env:TELEGRAM_CHAT_ID}"; text = "${env:MESSAGE}" }
           Invoke-RestMethod -Uri $url -Method Post -Body $payload
 
       # --- Wait before checking ---
@@ -74,8 +74,8 @@ jobs:
         run: Start-Sleep -Seconds 300
       - name: Send Telegram (Waiting)
         run: |
-          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "⏳ Waiting 5 minutes before checking Tailscale status..." }
+          $url = "https://api.telegram.org/bot${env:TELEGRAM_BOT_TOKEN}/sendMessage"
+          $payload = @{ chat_id = "${env:TELEGRAM_CHAT_ID}"; text = "⏳ Waiting 5 minutes before checking Tailscale status..." }
           Invoke-RestMethod -Uri $url -Method Post -Body $payload
 
       # --- Check Tailscale status ---
@@ -92,8 +92,8 @@ jobs:
       - name: Send Telegram (Status)
         if: always()
         run: |
-          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "${env:STATUS_MSG}" }
+          $url = "https://api.telegram.org/bot${env:TELEGRAM_BOT_TOKEN}/sendMessage"
+          $payload = @{ chat_id = "${env:TELEGRAM_CHAT_ID}"; text = "${env:STATUS_MSG}" }
           Invoke-RestMethod -Uri $url -Method Post -Body $payload
 
       # --- Keep runner alive ---
