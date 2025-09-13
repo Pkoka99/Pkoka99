@@ -11,57 +11,83 @@ jobs:
     steps:
       - name: Setup environment
         run: |
-          echo "CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> $env:GITHUB_ENV
-          echo "BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> $env:GITHUB_ENV
+          echo "CHAT_ID=${{ secrets.CHAT_ID }}" >> $env:GITHUB_ENV
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> $env:GITHUB_ENV
           echo "RDP_CREDS=User: RDP | Password: Poka1337" >> $env:GITHUB_ENV
+        shell: pwsh
 
       - name: Configure Core RDP Settings
         run: |
-          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name fDenyTSConnections -Value 0
-          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0 -Force
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name "UserAuthentication" -Value 0 -Force
+          netsh advfirewall firewall add rule name="RDP-Tailscale" dir=in action=allow protocol=TCP localport=3389
+          Restart-Service -Name TermService -Force
+        shell: pwsh
 
       - name: Send Telegram (RDP Settings)
         run: |
           $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "🔧 RDP Settings configured.`n${env:RDP_CREDS}" } | ConvertTo-Json
-          Invoke-RestMethod -Uri $url -Method Post -ContentType "application/json" -Body $payload
+          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "✅ RDP Enabled & Firewall Rule Added" }
+          Invoke-RestMethod -Uri $url -Method Post -Body $payload
+        shell: pwsh
 
       - name: Install Tailscale
         run: |
           Invoke-WebRequest https://pkgs.tailscale.com/stable/tailscale-setup-latest-amd64.msi -OutFile tailscale.msi
-          Start-Process msiexec.exe -ArgumentList '/i tailscale.msi /quiet' -Wait
+          Start-Process "msiexec.exe" -ArgumentList '/i tailscale.msi /qn /norestart' -Wait -NoNewWindow
+        shell: pwsh
 
       - name: Send Telegram (Install Tailscale)
         run: |
-          $msg = if ($LASTEXITCODE -eq 0) { "✅ Tailscale Installed" } else { "❌ Tailscale Install Failed" }
+          $status = if ($LASTEXITCODE -eq 0) {"✅ Tailscale Installed"} else {"❌ Tailscale Install Failed"}
           $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = $msg } | ConvertTo-Json
-          Invoke-RestMethod -Uri $url -Method Post -ContentType "application/json" -Body $payload
+          $payload = @{ chat_id = "${env:CHAT_ID}"; text = $status }
+          Invoke-RestMethod -Uri $url -Method Post -Body $payload
+        shell: pwsh
 
       - name: Tailscale Login
-        id: tailscale-login
         run: |
-          $output = tailscale up
-          if ($output -match "https://login.tailscale.com/a/\S+") {
-            $matches[0] | Out-File authlink.txt
+          $loginOutput = & "$env:ProgramFiles\Tailscale\tailscale.exe" up --hostname=gh-runner-$env:GITHUB_RUN_ID
+          $link = ($loginOutput | Select-String "https://login.tailscale.com/[^\s]+").Matches.Value
+          if ($link) {
+            echo "TAILSCALE_LOGIN=$link" >> $env:GITHUB_ENV
           }
+        shell: pwsh
 
       - name: Send Telegram (Login Info)
+        if: env.TAILSCALE_LOGIN != ''
         run: |
-          $link = Get-Content authlink.txt
           $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "🔑 Tailscale Login Required:`n$link" } | ConvertTo-Json
-          Invoke-RestMethod -Uri $url -Method Post -ContentType "application/json" -Body $payload
+          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "🔑 Authenticate Tailscale:\n${env:TAILSCALE_LOGIN}" }
+          Invoke-RestMethod -Uri $url -Method Post -Body $payload
+        shell: pwsh
 
       - name: Wait before status check
         run: Start-Sleep -Seconds 300
+        shell: pwsh
 
       - name: Check Tailscale Status
         run: |
-          $status = tailscale status
-          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
-          $payload = @{ chat_id = "${env:CHAT_ID}"; text = "📡 Tailscale Status:`n$status" } | ConvertTo-Json
-          Invoke-RestMethod -Uri $url -Method Post -ContentType "application/json" -Body $payload
+          $tsIP = & "$env:ProgramFiles\Tailscale\tailscale.exe" ip -4
+          if (-not $tsIP) {
+            Write-Error "❌ Tailscale IP not found"
+            exit 1
+          }
+          echo "TAILSCALE_IP=$tsIP" >> $env:GITHUB_ENV
+        shell: pwsh
 
-      - name: Keep Runner Alive
-        run: Start-Sleep -Seconds 3540
+      - name: Send Telegram (Status)
+        run: |
+          $msg = "🎯 Tailscale Connected!\nIP: ${env:TAILSCALE_IP}\n${env:RDP_CREDS}"
+          $url = "https://api.telegram.org/bot${env:BOT_TOKEN}/sendMessage"
+          $payload = @{ chat_id = "${env:CHAT_ID}"; text = $msg }
+          Invoke-RestMethod -Uri $url -Method Post -Body $payload
+        shell: pwsh
+
+      - name: Keep Alive
+        run: |
+          while ($true) {
+            Write-Host "[$(Get-Date)] Runner Alive"
+            Start-Sleep -Seconds 300
+          }
+        shell: pwsh
