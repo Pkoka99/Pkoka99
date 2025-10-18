@@ -1,0 +1,60 @@
+name: VPS-SSH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-vps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3600
+
+    steps:
+      - name: Install Basic Utilities
+        run: |
+          sudo apt update -y
+          sudo apt install -y openssh-server curl wget net-tools
+
+      - name: Configure SSH Access
+        run: |
+          # Enable SSH service
+          sudo systemctl enable ssh
+          sudo systemctl start ssh
+
+          # Create SSH user
+          sudo useradd -m -s /bin/bash vps
+          echo 'vps:Poka1337' | sudo chpasswd
+          sudo usermod -aG sudo vps
+
+          # Allow password authentication (default GitHub runners disable it)
+          sudo sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+          sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+          # Restart SSH
+          sudo systemctl restart ssh
+
+      - name: Install Tailscale
+        run: |
+          curl -fsSL https://tailscale.com/install.sh | sh
+          sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-vps-${{ github.run_id }} --ssh
+
+      - name: Show Connection Info
+        run: |
+          TS_IP=$(tailscale ip -4)
+          echo "TAILSCALE_IP=$TS_IP" >> $GITHUB_ENV
+          echo "====================================="
+          echo "✅ VPS Active via SSH"
+          echo "IP Address : $TS_IP"
+          echo "Username   : vps"
+          echo "Password   : Poka1337"
+          echo "====================================="
+          echo "Gunakan command di local kamu:"
+          echo "ssh vps@$TS_IP"
+          echo "Password: Poka1337"
+
+      - name: Keep VPS Alive
+        run: |
+          while true; do
+            echo "[$(date)] VPS Active - press Ctrl+C to stop"
+            sleep 300
+          done
